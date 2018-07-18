@@ -12,7 +12,7 @@ const routes = require('./routes/user');
 // const passport = require('passport');
 const User = require('./models/users');
 const nunjucks = require('nunjucks');
-
+const jwt = require('jsonwebtoken');
 
 app.set('views', path.join(__dirname,'views'));
 app.set('view engine','html');
@@ -46,6 +46,7 @@ passport.use(new FacebookStrategy({
 }, function (accessToken,refreshToken,profile,done) {
     User.create({facebookId:profile.id,username:profile.displayName})
         .then(function (user) {
+            // console.log(user.dataValues.facebookId);
             done(null,user)
         }).catch(function (err) {
         done(err);
